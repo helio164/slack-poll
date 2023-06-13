@@ -4,6 +4,10 @@ const app = require('../app');
 
 test('creates a poll with slack command', async () => {
   const slackVerificationToken = 'slack_verification_token';
+});
+
+test('rejects with invalid verification token', async () => {
+  const slackVerificationToken = faker.random.uuid();
   const expectedQuestion = faker.lorem.word();
   const expectedOption = faker.lorem.word();
   const slashCommand = `"${expectedQuestion}" "${expectedOption}" "${expectedOption}"`;
@@ -18,7 +22,5 @@ test('creates a poll with slack command', async () => {
   };
 
   const response = await request(app).post('/polls').send(requestBody);
-
-  expect(response.status).toBe(201);
+  expect(response.status).toBe(403);
 });
-
